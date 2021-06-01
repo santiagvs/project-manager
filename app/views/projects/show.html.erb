@@ -1,12 +1,13 @@
-<%= link_to 'Back', projects_path, class: 'btn btn-light mb-3'%>
+<%= link_to 'Back', projects_path, class: 'btn btn-secondary mb-3'%>
 
 <div class='card'>
   <div class='card-body'>
     <h2 class='card-title d-flex justify-context-between mb-4'>
         <span><%= @project.name %></span>
         <div>
-          <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-warning ml-5' %>
-          <%= link_to 'Destroy', @project, method: :delete, class: 'btn btn-danger' ,data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-outline-info ml-5' %>
+          <%= link_to 'Destroy', @project, method: :delete, class: 'btn btn-dark',
+          data: { confirm: 'Are you sure?' } %>
         </div>
       </h2>
 
@@ -31,24 +32,27 @@
           <div class="input-group">
             <%= f.text_field :name, class: 'form-control', placeholder: 'Enter task name' %>
             <div class="input-group-append">
-              <%= f.submit class: 'btn btn-primary' %>
+              <%= f.submit class: 'btn btn-primary mb-3' %>
             </div>
           </div>
         <% end %>
 
-        <h4>Tasks</h4>
+      <h4>Tasks</h4>
         <% @project.tasks.each do |task| %>
           <% if task.persisted? %>
             <div class="card mb-3">
               <div class="card-body">
-              <span class="badge badge-primary mb-2"><%= task.status %></span>
+                <div class="d-flex justify-context-between">
+                  <span class="badge badge-<%= task.badge_color%> mb-3"><%= task.status %></span>
+                  <div>
+                    <%= link_to 'Edit', edit_project_task_path(task.project, task), 
+                    class: 'btn btn-outline-info ml-5 btn-sm' %>
+                    <%= link_to 'Destroy', [task.project, task], method: :delete, data: 
+                    { confirm: 'Are you sure?' }, class: 'btn btn-dark ml-2 btn-sm' %>
+                  </div>  
+                </div>
                 <h5 class="card-title d-flex justify-context-between mb-2">
-                <span><%= task.name%></span>
-                <div>
-                  <%= link_to 'Edit', edit_project_task_path(task.project, task), class: 'btn btn-warning ml-5 btn-sm' %>
-                  <%= link_to 'Destroy', [task.project, task], method: :delete, data: 
-                  { confirm: 'Are you sure?' }, class: 'btn btn-danger ml-2 btn-sm' %>
-                </div>  
+                  <span><%= task.name%></span>
                 </h5>
                 <p><%= task.description %></p>
               </div>
@@ -56,7 +60,5 @@
           <% end %>
         <% end %>
       </div>
-
-      
   </div>
 </div>
